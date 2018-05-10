@@ -3,10 +3,61 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RemoteControl"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="Remote Control" Height="455" Width="440">
+    <Grid Loaded="Grid_Loaded" Margin="0,0,2,0">
+        <GroupBox Header="Соединение" HorizontalAlignment="Left" Height="48" Margin="10,-5,0,0" VerticalAlignment="Top" Width="400">
+            <Grid Margin="0,0,-2,0" Height="26" VerticalAlignment="Top">
+                <Button x:Name="BtnConnect" Content="Подключиться" HorizontalAlignment="Left" VerticalAlignment="Top" Width="110" Height="22" Click="BtnConnect_Click" />
+                <ComboBox x:Name="CbBaudRate" HorizontalAlignment="Left" Margin="220,0,0,0" VerticalAlignment="Top" Width="70" SelectedIndex="0">
+                    <Button Content="115200"/>
+                    <Button Content="921600"/>
+                </ComboBox>
+                <ComboBox x:Name="CbPortName" HorizontalAlignment="Left" Margin="125,0,0,0" VerticalAlignment="Top" Width="80"/>
+            </Grid>
+        </GroupBox>
+        <Grid Height="29" Margin="10,375,10,15" >
+            <Label x:Name="LbVersion" Content="Версия: 0.0.0000.00000" HorizontalAlignment="Left" Margin="10,3,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.28,1.373"/>
+            <Label x:Name="LbConnectionStatus" Content="Статус: Отключено" Margin="149,3,108,0" RenderTransformOrigin="-1.28,1.373"/>
+        </Grid>
+        <GroupBox Header="Команды" Height="237" Margin="10,43,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="225">
+            <Grid Margin="0,0,-2,-5" HorizontalAlignment="Left" Width="160">
+                <Button Content="Дв. Z вверх" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100"/>
+                <Button Content="Дв. Z вниз" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="0,25,0,0"/>
+                <Button Content="Дв. Y влево" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="0,50,0,0"/>
+                <Button Content="Дв. Y впаво" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="0,75,0,0"/>
+                <Button Content="Дв. Z в центр" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="0,100,0,0"/>
+                <Button Content="Дв. Y в центр" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="0,125,0,0"/>
+                <Button Content="Дв. Z в центр + смещение" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="0,150,0,0" FontSize="8" Height="20"/>
+                <Button Content="Дв. БПО в нач. Z" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="114,150,-54,0"/>
+                <Button Content="Дв. БПО в нач. Y" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="114,125,-54,0"/>
+                <Button Content="Нач. скан. Y + смещение" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="114,100,-54,0" FontSize="8" Height="20"/>
+                <Button Content="Дв. Y в центр + смещение" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="114,0,-54,0" FontSize="8" Height="20"/>
+                <Button Content="Дв. Z в нач. + смещение" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="114,25,-54,0" FontSize="8" Height="20"/>
+                <Button Content="Нач. скан. Z + смещение" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="114,50,-54,0" FontSize="8" Height="20"/>
+                <Button Content="Y в нач. скан. + смещение" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="114,75,-54,0" FontSize="8" Height="20"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="114,175,-29,0" TextWrapping="Wrap" Text="Shift" VerticalAlignment="Top" Width="75"/>
+                <Label x:Name="LbShift" Content="Смещение:" HorizontalAlignment="Left" Margin="25,175,0,0" VerticalAlignment="Top" Height="23" Width="75"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Статусы" HorizontalAlignment="Left" Height="206" Margin="240,43,0,0" VerticalAlignment="Top" Width="170">
+            <Grid Margin="0,0,-5,-5">
+                <Button Content="Err" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="0,25,0,0" Background="#FFE65757"/>
+                <Button Content="СтопZ" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,50,0,0" Background="#FFE65757"/>
+                <Button Content="СтартX" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,0,0,0" Background="#FFE65757"/>
+                <Button Content="ЦентрY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="100,25,0,0" Background="#FFE65757"/>
+                <Button Content="ЦентрX" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="100,0,0,0" Background="#FFE65757"/>
+                <Button Content="СтопY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,25,0,0" Background="#FFE65757"/>
+                <Button Content="СтопY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="0,50,0,0" Background="#FFE65757"/>
+                <Button Content="Готов" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Background="#FFE65757"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="0,75,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="153"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="0,103,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="153"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="0,131,0,0" TextWrapping="Wrap" Text="CodeErr" VerticalAlignment="Top" Width="153"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="0,159,0,-6" TextWrapping="Wrap" Text="Count" VerticalAlignment="Top" Width="153" />
+            </Grid>
+        </GroupBox>
+        <Grid Height="90" Margin="10,285,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400">
+            <ListBox x:Name="LbOperationsStatus" HorizontalAlignment="Left" Height="90" VerticalAlignment="Top" Width="400"/>
+        </Grid>
     </Grid>
 </Window>
