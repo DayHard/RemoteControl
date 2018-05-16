@@ -21,39 +21,46 @@
             <Label x:Name="LbConnectionStatus" Content="Статус: Отключено" Margin="149,3,108,0" RenderTransformOrigin="-1.28,1.373"/>
         </Grid>
         <GroupBox Header="Команды" Height="237" Margin="10,43,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="225">
-            <Grid Margin="0,0,-2,-5" HorizontalAlignment="Left" Width="160">
-                <Button Content="Дв. Z вверх" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100"/>
-                <Button Content="Дв. Z вниз" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="0,25,0,0"/>
-                <Button Content="Дв. Y влево" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="0,50,0,0"/>
-                <Button Content="Дв. Y впаво" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="0,75,0,0"/>
-                <Button Content="Дв. Z в центр" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="0,100,0,0"/>
-                <Button Content="Дв. Y в центр" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="0,125,0,0"/>
-                <Button Content="Дв. Z в центр + смещение" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="0,150,0,0" FontSize="8" Height="20"/>
-                <Button Content="Дв. БПО в нач. Z" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="114,150,-54,0"/>
-                <Button Content="Дв. БПО в нач. Y" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="114,125,-54,0"/>
-                <Button Content="Нач. скан. Y + смещение" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="114,100,-54,0" FontSize="8" Height="20"/>
-                <Button Content="Дв. Y в центр + смещение" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="114,0,-54,0" FontSize="8" Height="20"/>
-                <Button Content="Дв. Z в нач. + смещение" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="114,25,-54,0" FontSize="8" Height="20"/>
-                <Button Content="Нач. скан. Z + смещение" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="114,50,-54,0" FontSize="8" Height="20"/>
-                <Button Content="Y в нач. скан. + смещение" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="114,75,-54,0" FontSize="8" Height="20"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="114,175,-29,0" TextWrapping="Wrap" Text="Shift" VerticalAlignment="Top" Width="75"/>
+            <Grid Margin="0,0,-2,-5" HorizontalAlignment="Left" Width="215">
+                <ToggleButton Name="TglBtnZUp" Content="Дв. Z вверх" Margin="0,1,115,199" Click="TglBtn_Click"></ToggleButton>
+                <ToggleButton Name="TglBtnZDown" Content="Дв. Z вниз" Margin="0,25,115,175" Click="TglBtn_Click"></ToggleButton>
+                <ToggleButton Name="TglBtnYLeft" Content="Дв. Y влево" Margin="0,50,115,150" Click="TglBtn_Click"></ToggleButton>
+                <ToggleButton Name="TglBtnYRight" Content="Дв. Y вправо" Margin="0,75,115,125" Click="TglBtn_Click"></ToggleButton>
+                <ToggleButton Name="TglBtnZCentre" Content="Дв. Z в центр" Margin="0,100,115,100" Click="TglBtn_Click"></ToggleButton>
+                <ToggleButton Name="TglBtnYCentre" Content="Дв. Y в центр " Margin="0,126,115,74" Click="TglBtn_Click"></ToggleButton>
+                <ToggleButton Name="TglBtnZCentreDelta" Content="Дв. Z в центр + Δ" Margin="0,150,115,50" Click="TglBtn_Click"></ToggleButton>
+                <ToggleButton Name="TglBtnYInCentreDelta" Content="Дв. Y в центр + Δ" Margin="115,1,0,199" Click="TglBtn_Click"></ToggleButton>
+                <ToggleButton Name="TglBtnZInStartDelta" Content="Дв. Z в нач. + Δ" Margin="115,25,0,175" Click="TglBtn_Click"></ToggleButton>
+                <ToggleButton Name="TglBtnStartScanZDelta" Content="Нач. скан. Z +Δ" Margin="115,50,0,150" Click="TglBtn_Click"></ToggleButton>
+                <ToggleButton Name="TglBtnYStartScanDelta" Content="Y в нач. скан. + Δ" Margin="115,75,0,125" Click="TglBtn_Click"></ToggleButton>
+                <ToggleButton Name="TglBtnStartScanYDelta" Content="Нач. скан. Y + Δ" Margin="115,100,0,100" Click="TglBtn_Click"></ToggleButton>
+                <ToggleButton Name="TglBtnBpoStartInY" Content="Дв. БПО в нач. Y" Margin="115,125,0,75" Click="TglBtn_Click"></ToggleButton>
+                <ToggleButton Name="TglBtnBpoStartInZ" Content="Дв. БПО в нач. Z" Margin="114,150,1,50" Click="TglBtn_Click"></ToggleButton>
+
+
+                
+
+
+
+                <TextBox Name="TbShift" HorizontalAlignment="Left" Height="23" Margin="114,175,-29,0" TextWrapping="Wrap" Text="Shift" VerticalAlignment="Top" Width="75"/>
                 <Label x:Name="LbShift" Content="Смещение:" HorizontalAlignment="Left" Margin="25,175,0,0" VerticalAlignment="Top" Height="23" Width="75"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Статусы" HorizontalAlignment="Left" Height="206" Margin="240,43,0,0" VerticalAlignment="Top" Width="170">
+        <GroupBox Header="Статусы" HorizontalAlignment="Left" Height="237" Margin="240,43,0,0" VerticalAlignment="Top" Width="170">
             <Grid Margin="0,0,-5,-5">
-                <Button Content="Err" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="0,25,0,0" Background="#FFE65757"/>
-                <Button Content="СтопZ" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,50,0,0" Background="#FFE65757"/>
-                <Button Content="СтартX" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,0,0,0" Background="#FFE65757"/>
-                <Button Content="ЦентрY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="100,25,0,0" Background="#FFE65757"/>
-                <Button Content="ЦентрX" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="100,0,0,0" Background="#FFE65757"/>
-                <Button Content="СтопY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,25,0,0" Background="#FFE65757"/>
-                <Button Content="СтопY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="0,50,0,0" Background="#FFE65757"/>
-                <Button Content="Готов" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Background="#FFE65757"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="0,75,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="153"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="0,103,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="153"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="0,131,0,0" TextWrapping="Wrap" Text="CodeErr" VerticalAlignment="Top" Width="153"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="0,159,0,-6" TextWrapping="Wrap" Text="Count" VerticalAlignment="Top" Width="153" />
+                <Button Name="IndicErr" Content="Err" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="0,25,0,0" Background="#FFE65757"/>
+                <Button Name="IndicStopZ" Content="СтопZ" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,50,0,0" Background="#FFE65757"/>
+                <Button Name="IndicStartX" Content="СтартX" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,0,0,0" Background="#FFE65757"/>
+                <Button Name="IndicCentreY" Content="ЦентрY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="100,25,0,0" Background="#FFE65757"/>
+                <Button Name="IndicCentreX" Content="ЦентрX" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="100,0,0,0" Background="#FFE65757"/>
+                <Button Name="IndicStopY" Content="СтопY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,25,0,0" Background="#FFE65757"/>
+                <Button Name="IndicStartY" Content="СтартY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="0,50,0,0" Background="#FFE65757"/>
+                <Button Name="IndicReady" Content="Готов" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Background="#FFE65757"/>
+                <TextBox x:Name="TbZCd" HorizontalAlignment="Left" Height="23" Margin="0,75,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="153"/>
+                <TextBox x:Name="TbYCd" HorizontalAlignment="Left" Height="23" Margin="0,103,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="153"/>
+                <TextBox x:Name="TbCErr" HorizontalAlignment="Left" Height="23" Margin="0,131,0,0" TextWrapping="Wrap" Text="CodeErr" VerticalAlignment="Top" Width="153"/>
+                <TextBox x:Name="TbCPg" HorizontalAlignment="Left" Height="23" Margin="0,159,0,-6" TextWrapping="Wrap" Text="Count" VerticalAlignment="Top" Width="153" />
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="0,187,0,0" TextWrapping="Wrap" Text="Count2" VerticalAlignment="Top" Width="153" />
             </Grid>
         </GroupBox>
         <Grid Height="90" Margin="10,285,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400">
