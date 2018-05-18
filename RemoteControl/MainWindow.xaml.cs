@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Ports;
 using System.Reflection;
 using System.Windows;
@@ -14,12 +15,14 @@ namespace RemoteControl
     public partial class MainWindow
     {
         private SerialPort _port;
-        private bool _portIsOpen;
         private readonly Multimedia.Timer _timer;
         private short _command, _shift;
         private ushort _counter;
         private List<ToggleButton> _tlgBtnList;
-        private const int Delay = 50;
+        private int _errchecksum;
+        private int _errtimeout;
+        private bool _comwithshift;
+        private const int Delay = 1000;
         private const int RecieveTimeOut = 50;
         // ReSharper disable once FieldCanBeMadeReadOnly.Local
         private byte[] _package = {0x5a, 0x01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -34,73 +37,44 @@ namespace RemoteControl
                 Resolution = 1,
                 Period = Delay
             };
-            _timer.Started += _timer_Started;
             _timer.Tick += _timer_Tick;
         }
-
-        private void _timer_Started(object sender, EventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // Сбрасываем счетчик пакетов
-            _counter = 1;
-            //По имени кнопки определяем какую команду отправлять
-            foreach (var btn in _tlgBtnList)
+            // Считываем версию ПО
+            LbVersion.Content = "Версия: " + Assembly.GetExecutingAssembly().GetName().Version;
+            // Считываем доступные COM порты
+            foreach (var portName in SerialPort.GetPortNames())
             {
-                if (!btn.IsEnabled) continue;
-                switch (btn.Name)
-                {
-                    case "TglBtnZUp":
-                        _command = 0x0101;
-                        break;
-                    case "TglBtnZDown":
-                        _command = 0x0102;
-                        break;
-                    case "TglBtnYLeft":
-                        _command = 0x0201;
-                        break;
-                    case "TglBtnYRight":
-                        _command = 0x0202;
-                        break;
-                    case "TglBtnZCentre":
-                        _command = 0x0103;
-                        break;
-                    case "TglBtnYCentre":
-                        _command = 0x0203;
-                        break;
-                    case "TglBtnZCentreDelta":
-                        _command = 0x0103;
-                        _shift = Convert.ToInt16(TbShift.Text);
-                        break;
-                    case "TglBtnYInCentreDelta":
-                        _command = 0x0203;
-                        _shift = Convert.ToInt16(TbShift.Text);
-                        break;
-                    case "TglBtnZInStartDelta":
-                        _command = 0x0104;
-                        _shift = Convert.ToInt16(TbShift.Text);
-                        break;
-                    case "TglBtnStartScanZDelta":
-                        _command = 0x0105;
-                        _shift = Convert.ToInt16(TbShift.Text);
-                        break;
-                    case "TglBtnYStartScanDelta":
-                        _command = 0x0204;
-                        _shift = Convert.ToInt16(TbShift.Text);
-                        break;
-                    case "TglBtnStartScanYDelta":
-                        _command = 0x0205;
-                        _shift = Convert.ToInt16(TbShift.Text);
-                        break;
-                    case "TglBtnBpoStartInY":
-                        _command = 0x0301;
-                        break;
-                    case "TglBtnBpoStartInZ":
-                        _command = 0x0302;
-                        break;
-                    default:
-                        throw new Exception("Something gone wrong.");
-                }
+                CbPortName.Items.Add(portName);
             }
         }
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // Остановливаем обмен
+            _timer.Stop();
+            // Закрываем порт
+            if (_port != null && _port.IsOpen)
+                _port.Close();
+        }
+        // Сброс ошибки таймат, при двойном клике на поле
+        private void TbTimeoutErr_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            _errtimeout = 0;
+            TbTimeoutErr.Text = _errtimeout.ToString();
+        }
+        // Сброс ошибки контрольной суммы, при двойном клике на поле
+        private void TbChecksumErr_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            _errchecksum = 0;
+            TbChecksumErr.Text = _errchecksum.ToString();
+        }
+        // Включение кнопки подключить
+        private void CbPortName_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            BtnConnect.IsEnabled = true;
+        }
+        // Такт срабатывания таймера
         private void _timer_Tick(object sender, EventArgs e)
         {
             DataExchange(_command,_counter, _shift);
@@ -129,21 +103,10 @@ namespace RemoteControl
             };
 
         }
-        // Определяем версию ПО
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Считываем версию ПО
-            LbVersion.Content = "Версия: " + Assembly.GetExecutingAssembly().GetName().Version;
-            // Считываем доступные COM порты
-            foreach (var portName in SerialPort.GetPortNames())
-            {
-                CbPortName.Items.Add(portName);
-            }
-        }
         //Подключение по COM
         private void BtnConnect_Click(object sender, RoutedEventArgs e)
         {
-            if (!_portIsOpen)
+            if (_port == null || !_port.IsOpen)
             {
                 _port = new SerialPort();
 
@@ -157,6 +120,7 @@ namespace RemoteControl
                     _port.Parity = Parity.Even;
                     _port.ReadTimeout = RecieveTimeOut;
                     _port.Open();
+                    _timer.Start();
 
                     BtnConnect.Content = "Отключить";
                     LbConnectionStatus.Content = "Статус: Подключено";
@@ -170,12 +134,16 @@ namespace RemoteControl
             }
             else
             {
+                _timer.Stop();
                 _port.Close();
                 BtnConnect.Content = "Подключить";
                 LbConnectionStatus.Content = "Статус: Отключено";
             }
-
-            _portIsOpen = !_portIsOpen;
+            // Включаем кнопки управления
+            foreach (var toggleButton in _tlgBtnList)
+            {
+                toggleButton.IsEnabled = !toggleButton.IsEnabled;
+            }
             CbPortName.IsEnabled = !CbPortName.IsEnabled;
             CbBaudRate.IsEnabled = !CbBaudRate.IsEnabled;
         }
@@ -224,9 +192,11 @@ namespace RemoteControl
             }
             catch (TimeoutException)
             {
-                Dispatcher.Invoke(() => { LbOperationsStatus.Items.Add("[" + DateTime.Now + "] " + "Устроство не ответило на запрос."); });
+                _errtimeout++;
+                Dispatcher.Invoke(() => { TbTimeoutErr.Text = _errtimeout.ToString(); });
                 return;
             }
+            catch (IOException) {return;}
 
             byte checksum = 0;
             // Считаем контрольную сумму
@@ -235,12 +205,15 @@ namespace RemoteControl
                 checksum ^= responce[i];
             }
             if (responce[15] != checksum)
-                Dispatcher.Invoke(() => { LbOperationsStatus.Items.Add("[" + DateTime.Now + "] " + "Ошибка контрольной суммы пакета"); }); 
+            {
+                Dispatcher.Invoke(() => { TbChecksumErr.Text = TbChecksumErr.ToString(); });
+                _errchecksum++;
+            }
             // Проверяем маркер начала пакета
             if (responce[0] != 0xA5 || responce[1] != 0x10)
             {
-                Dispatcher.Invoke(() => { LbOperationsStatus.Items.Add("[" + DateTime.Now + "] " + "Ошибка маркера начала пакета"); }); 
-                return;
+                Dispatcher.Invoke(() => { TbChecksumErr.Text = TbChecksumErr.ToString(); });
+                _errchecksum++;
             }
 
             var status = responce[2] | responce[3] << 8;
@@ -294,17 +267,102 @@ namespace RemoteControl
         //По нажатию на кнопку, отключаем остальные кнопки
         private void TglBtn_Click(object sender, RoutedEventArgs e)
         {
+            // Снимаем нажатие с кнопки если нажато более 1ой
             var prdBtn = (ToggleButton)sender;
             foreach (var btn in _tlgBtnList)
             {
-                if (btn.Name != prdBtn.Name)
-                    btn.IsEnabled = !btn.IsEnabled;
+                if (prdBtn.IsChecked == true && prdBtn.Name != btn.Name)
+                    btn.IsChecked = false;
             }
-            // Запуск\Остановка таймера
-            if(_timer.IsRunning)
-                _timer.Stop();
-            else _timer.Start();
+
+            // В случае если все кнопки отжаты, шлем команду 0x0000
+            foreach (var btn in _tlgBtnList)
+            {
+                if (btn.IsChecked != false) continue;
+                _command = 0x0000;
+                _comwithshift = false;
+            }
+
+            //По статусу кнопки определяем какую команду отправлять
+            foreach (var btn in _tlgBtnList)
+            {
+                if (btn.IsChecked != true) continue;
+                switch (btn.Name)
+                {
+                    case "TglBtnZUp":
+                        _command = 0x0101;
+                        _comwithshift = false;
+                        break;
+                    case "TglBtnZDown":
+                        _command = 0x0102;
+                        _comwithshift = false;
+                        break;
+                    case "TglBtnYLeft":
+                        _command = 0x0201;
+                        _comwithshift = false;
+                        break;
+                    case "TglBtnYRight":
+                        _command = 0x0202;
+                        _comwithshift = false;
+                        break;
+                    case "TglBtnZCentre":
+                        _command = 0x0103;
+                        _comwithshift = false;
+                        break;
+                    case "TglBtnYCentre":
+                        _command = 0x0203;
+                        _comwithshift = false;
+                        break;
+                    case "TglBtnZCentreDelta":
+                        _command = 0x0103;
+                        _comwithshift = true;
+                        _shift = Convert.ToInt16(TbShift.Text);
+                        break;
+                    case "TglBtnYInCentreDelta":
+                        _command = 0x0203;
+                        _comwithshift = true;
+                        _shift = Convert.ToInt16(TbShift.Text);
+                        break;
+                    case "TglBtnZInStartDelta":
+                        _command = 0x0104;
+                        _comwithshift = true;
+                        _shift = Convert.ToInt16(TbShift.Text);
+                        break;
+                    case "TglBtnStartScanZDelta":
+                        _command = 0x0105;
+                        _comwithshift = true;
+                        _shift = Convert.ToInt16(TbShift.Text);
+                        break;
+                    case "TglBtnYStartScanDelta":
+                        _command = 0x0204;
+                        _comwithshift = true;
+                        _shift = Convert.ToInt16(TbShift.Text);
+                        break;
+                    case "TglBtnStartScanYDelta":
+                        _command = 0x0205;
+                        _comwithshift = true;
+                        _shift = Convert.ToInt16(TbShift.Text);
+                        break;
+                    case "TglBtnBpoStartInY":
+                        _command = 0x0301;
+                        _comwithshift = false;
+                        break;
+                    case "TglBtnBpoStartInZ":
+                        _command = 0x0302;
+                        _comwithshift = false;
+                        break;
+                    default:
+                        throw new Exception("Something gone wrong.");
+                }
+            }
         }
+        // При вводи значения смещение, обновление переменной shift
+        private void TbShift_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            if (short.TryParse(TbShift.Text, out short shift))
+                _shift = shift;
+        }
+
         /// <summary>
         /// Обмен данными с устройством
         /// </summary>
@@ -313,6 +371,13 @@ namespace RemoteControl
         /// <param name="shift">Смещение(для некоторых команд)</param>
         private void DataExchange(short command, ushort count, short shift)
         {
+            // Зануляем сдвиг, если команда без него
+            if (!_comwithshift)
+            {
+                _shift = 0;
+                shift = 0;
+            }
+
             SendCommand(command, count, shift);
             RecieveCommand();
         }

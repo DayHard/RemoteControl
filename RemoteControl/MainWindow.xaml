@@ -4,49 +4,45 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Remote Control" Height="455" Width="440">
-    <Grid Loaded="Grid_Loaded" Margin="0,0,2,0">
+        Title="Remote Control" Height="382.5" Width="440" Closing="Window_Closing" Loaded="Window_Loaded">
+    <Grid Margin="0,0,2,0">
         <GroupBox Header="Соединение" HorizontalAlignment="Left" Height="48" Margin="10,-5,0,0" VerticalAlignment="Top" Width="400">
             <Grid Margin="0,0,-2,0" Height="26" VerticalAlignment="Top">
-                <Button x:Name="BtnConnect" Content="Подключиться" HorizontalAlignment="Left" VerticalAlignment="Top" Width="110" Height="22" Click="BtnConnect_Click" />
+                <Button x:Name="BtnConnect" Content="Подключиться" HorizontalAlignment="Left" VerticalAlignment="Top" Width="110" Height="22" Click="BtnConnect_Click" IsEnabled="False" />
                 <ComboBox x:Name="CbBaudRate" HorizontalAlignment="Left" Margin="220,0,0,0" VerticalAlignment="Top" Width="70" SelectedIndex="0">
                     <Button Content="115200"/>
                     <Button Content="921600"/>
                 </ComboBox>
-                <ComboBox x:Name="CbPortName" HorizontalAlignment="Left" Margin="125,0,0,0" VerticalAlignment="Top" Width="80"/>
+                <ComboBox x:Name="CbPortName" HorizontalAlignment="Left" Margin="125,0,0,0" VerticalAlignment="Top" Width="80" SelectionChanged="CbPortName_SelectionChanged"/>
             </Grid>
         </GroupBox>
-        <Grid Height="29" Margin="10,375,10,15" >
-            <Label x:Name="LbVersion" Content="Версия: 0.0.0000.00000" HorizontalAlignment="Left" Margin="10,3,0,0" VerticalAlignment="Top" RenderTransformOrigin="-1.28,1.373"/>
-            <Label x:Name="LbConnectionStatus" Content="Статус: Отключено" Margin="149,3,108,0" RenderTransformOrigin="-1.28,1.373"/>
-        </Grid>
         <GroupBox Header="Команды" Height="237" Margin="10,43,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="225">
             <Grid Margin="0,0,-2,-5" HorizontalAlignment="Left" Width="215">
-                <ToggleButton Name="TglBtnZUp" Content="Дв. Z вверх" Margin="0,1,115,199" Click="TglBtn_Click"></ToggleButton>
-                <ToggleButton Name="TglBtnZDown" Content="Дв. Z вниз" Margin="0,25,115,175" Click="TglBtn_Click"></ToggleButton>
-                <ToggleButton Name="TglBtnYLeft" Content="Дв. Y влево" Margin="0,50,115,150" Click="TglBtn_Click"></ToggleButton>
-                <ToggleButton Name="TglBtnYRight" Content="Дв. Y вправо" Margin="0,75,115,125" Click="TglBtn_Click"></ToggleButton>
-                <ToggleButton Name="TglBtnZCentre" Content="Дв. Z в центр" Margin="0,100,115,100" Click="TglBtn_Click"></ToggleButton>
-                <ToggleButton Name="TglBtnYCentre" Content="Дв. Y в центр " Margin="0,126,115,74" Click="TglBtn_Click"></ToggleButton>
-                <ToggleButton Name="TglBtnZCentreDelta" Content="Дв. Z в центр + Δ" Margin="0,150,115,50" Click="TglBtn_Click"></ToggleButton>
-                <ToggleButton Name="TglBtnYInCentreDelta" Content="Дв. Y в центр + Δ" Margin="115,1,0,199" Click="TglBtn_Click"></ToggleButton>
-                <ToggleButton Name="TglBtnZInStartDelta" Content="Дв. Z в нач. + Δ" Margin="115,25,0,175" Click="TglBtn_Click"></ToggleButton>
-                <ToggleButton Name="TglBtnStartScanZDelta" Content="Нач. скан. Z +Δ" Margin="115,50,0,150" Click="TglBtn_Click"></ToggleButton>
-                <ToggleButton Name="TglBtnYStartScanDelta" Content="Y в нач. скан. + Δ" Margin="115,75,0,125" Click="TglBtn_Click"></ToggleButton>
-                <ToggleButton Name="TglBtnStartScanYDelta" Content="Нач. скан. Y + Δ" Margin="115,100,0,100" Click="TglBtn_Click"></ToggleButton>
-                <ToggleButton Name="TglBtnBpoStartInY" Content="Дв. БПО в нач. Y" Margin="115,125,0,75" Click="TglBtn_Click"></ToggleButton>
-                <ToggleButton Name="TglBtnBpoStartInZ" Content="Дв. БПО в нач. Z" Margin="114,150,1,50" Click="TglBtn_Click"></ToggleButton>
-
-
-                
+                <ToggleButton Name="TglBtnZUp" Content="Дв. Z вверх" Margin="0,1,115,199" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
+                <ToggleButton Name="TglBtnZDown" Content="Дв. Z вниз" Margin="0,25,115,175" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
+                <ToggleButton Name="TglBtnYLeft" Content="Дв. Y влево" Margin="0,50,115,150" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
+                <ToggleButton Name="TglBtnYRight" Content="Дв. Y вправо" Margin="0,75,115,125" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
+                <ToggleButton Name="TglBtnZCentre" Content="Дв. Z в центр" Margin="0,100,115,100" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
+                <ToggleButton Name="TglBtnYCentre" Content="Дв. Y в центр " Margin="0,126,115,74" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
+                <ToggleButton Name="TglBtnZCentreDelta" Content="Дв. Z в центр + Δ" Margin="0,150,115,50" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
+                <ToggleButton Name="TglBtnYInCentreDelta" Content="Дв. Y в центр + Δ" Margin="115,1,0,199" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
+                <ToggleButton Name="TglBtnZInStartDelta" Content="Дв. Z в нач. + Δ" Margin="115,25,0,175" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
+                <ToggleButton Name="TglBtnStartScanZDelta" Content="Нач. скан. Z +Δ" Margin="115,50,0,150" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
+                <ToggleButton Name="TglBtnYStartScanDelta" Content="Y в нач. скан. + Δ" Margin="115,75,0,125" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
+                <ToggleButton Name="TglBtnStartScanYDelta" Content="Нач. скан. Y + Δ" Margin="115,100,0,100" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
+                <ToggleButton Name="TglBtnBpoStartInY" Content="Дв. БПО в нач. Y" Margin="115,125,0,75" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
+                <ToggleButton Name="TglBtnBpoStartInZ" Content="Дв. БПО в нач. Z" Margin="114,150,1,50" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
 
 
 
-                <TextBox Name="TbShift" HorizontalAlignment="Left" Height="23" Margin="114,175,-29,0" TextWrapping="Wrap" Text="Shift" VerticalAlignment="Top" Width="75"/>
-                <Label x:Name="LbShift" Content="Смещение:" HorizontalAlignment="Left" Margin="25,175,0,0" VerticalAlignment="Top" Height="23" Width="75"/>
+
+
+
+                <TextBox Name="TbShift" HorizontalAlignment="Left" Height="23" Margin="114,175,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="30" TextChanged="TbShift_TextChanged"/>
+                <Label x:Name="LbShift" Content="Смещение:" HorizontalAlignment="Left" Margin="34,175,0,0" VerticalAlignment="Top" Height="23" Width="75"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Статусы" HorizontalAlignment="Left" Height="237" Margin="240,43,0,0" VerticalAlignment="Top" Width="170">
+        <GroupBox Header="Статусы" HorizontalAlignment="Left" Height="270" Margin="240,43,0,0" VerticalAlignment="Top" Width="170">
             <Grid Margin="0,0,-5,-5">
                 <Button Name="IndicErr" Content="Err" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="0,25,0,0" Background="#FFE65757"/>
                 <Button Name="IndicStopZ" Content="СтопZ" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,50,0,0" Background="#FFE65757"/>
@@ -56,15 +52,21 @@
                 <Button Name="IndicStopY" Content="СтопY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,25,0,0" Background="#FFE65757"/>
                 <Button Name="IndicStartY" Content="СтартY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="0,50,0,0" Background="#FFE65757"/>
                 <Button Name="IndicReady" Content="Готов" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Background="#FFE65757"/>
-                <TextBox x:Name="TbZCd" HorizontalAlignment="Left" Height="23" Margin="0,75,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="153"/>
-                <TextBox x:Name="TbYCd" HorizontalAlignment="Left" Height="23" Margin="0,103,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="153"/>
-                <TextBox x:Name="TbCErr" HorizontalAlignment="Left" Height="23" Margin="0,131,0,0" TextWrapping="Wrap" Text="CodeErr" VerticalAlignment="Top" Width="153"/>
-                <TextBox x:Name="TbCPg" HorizontalAlignment="Left" Height="23" Margin="0,159,0,-6" TextWrapping="Wrap" Text="Count" VerticalAlignment="Top" Width="153" />
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="0,187,0,0" TextWrapping="Wrap" Text="Count2" VerticalAlignment="Top" Width="153" />
+                <TextBox x:Name="TbZCd" HorizontalAlignment="Left" Height="23" Margin="0,75,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="153" IsReadOnly="True"/>
+                <TextBox x:Name="TbYCd" HorizontalAlignment="Left" Height="23" Margin="0,103,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="153" IsReadOnly="True"/>
+                <TextBox x:Name="TbCErr" HorizontalAlignment="Left" Height="23" Margin="85,131,0,0" TextWrapping="Wrap" Text="CodeErr" VerticalAlignment="Top" Width="70" IsReadOnly="True"/>
+                <TextBox x:Name="TbCPg" HorizontalAlignment="Left" Height="23" Margin="85,159,0,0" TextWrapping="Wrap" Text="Count" VerticalAlignment="Top" Width="68" IsReadOnly="True" />
+                <TextBox x:Name="TbTimeoutErr" HorizontalAlignment="Left" Height="23" Margin="85,187,0,0" TextWrapping="Wrap" Text="Timeout error" VerticalAlignment="Top" Width="68" MouseDoubleClick="TbTimeoutErr_MouseDoubleClick" IsReadOnly="True" />
+                <TextBox x:Name="TbChecksumErr" HorizontalAlignment="Left" Height="23" Margin="85,215,0,0" TextWrapping="Wrap" Text="Check sum err" VerticalAlignment="Top" Width="68" MouseDoubleClick="TbChecksumErr_MouseDoubleClick" IsReadOnly="True" />
+                <Label Content="Код ошибки" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
+                <Label Content="Ошибок КС" HorizontalAlignment="Left" Margin="10,215,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
+                <Label Content="Пакетов" HorizontalAlignment="Left" Margin="10,159,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
+                <Label Content="Ошибок ТО" HorizontalAlignment="Left" Margin="10,187,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
             </Grid>
         </GroupBox>
-        <Grid Height="90" Margin="10,285,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="400">
-            <ListBox x:Name="LbOperationsStatus" HorizontalAlignment="Left" Height="90" VerticalAlignment="Top" Width="400"/>
+        <Grid HorizontalAlignment="Left" Height="66" Margin="10,285,0,0" VerticalAlignment="Top" Width="225">
+            <Label x:Name="LbConnectionStatus" Content="Статус: Отключено" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="-1.28,1.373" Margin="0,4,0,0"/>
+            <Label x:Name="LbVersion" Content="Версия: 0.0.0000.00000" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="-1.28,1.373" Margin="0,30,0,0"/>
         </Grid>
     </Grid>
 </Window>
