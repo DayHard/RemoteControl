@@ -52,16 +52,18 @@
                 <Button Name="IndicStopY" Content="СтопY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,25,0,0" Background="#FFE65757"/>
                 <Button Name="IndicStartY" Content="СтартY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="0,50,0,0" Background="#FFE65757"/>
                 <Button Name="IndicReady" Content="Готов" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Background="#FFE65757"/>
-                <TextBox x:Name="TbZCd" HorizontalAlignment="Left" Height="23" Margin="0,75,0,0" TextWrapping="Wrap" Text="Z" VerticalAlignment="Top" Width="153" IsReadOnly="True"/>
-                <TextBox x:Name="TbYCd" HorizontalAlignment="Left" Height="23" Margin="0,103,0,0" TextWrapping="Wrap" Text="Y" VerticalAlignment="Top" Width="153" IsReadOnly="True"/>
-                <TextBox x:Name="TbCErr" HorizontalAlignment="Left" Height="23" Margin="85,131,0,0" TextWrapping="Wrap" Text="CodeErr" VerticalAlignment="Top" Width="70" IsReadOnly="True"/>
-                <TextBox x:Name="TbCPg" HorizontalAlignment="Left" Height="23" Margin="85,159,0,0" TextWrapping="Wrap" Text="Count" VerticalAlignment="Top" Width="68" IsReadOnly="True" />
-                <TextBox x:Name="TbTimeoutErr" HorizontalAlignment="Left" Height="23" Margin="85,187,0,0" TextWrapping="Wrap" Text="Timeout error" VerticalAlignment="Top" Width="68" MouseDoubleClick="TbTimeoutErr_MouseDoubleClick" IsReadOnly="True" />
-                <TextBox x:Name="TbChecksumErr" HorizontalAlignment="Left" Height="23" Margin="85,215,0,0" TextWrapping="Wrap" Text="Check sum err" VerticalAlignment="Top" Width="68" MouseDoubleClick="TbChecksumErr_MouseDoubleClick" IsReadOnly="True" />
+                <TextBox x:Name="TbZCd" HorizontalAlignment="Left" Height="23" Margin="85,75,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="68" IsReadOnly="True"/>
+                <TextBox x:Name="TbYCd" HorizontalAlignment="Left" Height="23" Margin="85,103,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="68" IsReadOnly="True"/>
+                <TextBox x:Name="TbCErr" HorizontalAlignment="Left" Height="23" Margin="85,131,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="70" IsReadOnly="True"/>
+                <TextBox x:Name="TbCPg" HorizontalAlignment="Left" Height="23" Margin="85,159,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="68" IsReadOnly="True" />
+                <TextBox x:Name="TbTimeoutErr" HorizontalAlignment="Left" Height="23" Margin="85,187,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="68" MouseDoubleClick="TbTimeoutErr_MouseDoubleClick" IsReadOnly="True" />
+                <TextBox x:Name="TbChecksumErr" HorizontalAlignment="Left" Height="23" Margin="85,215,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="68" MouseDoubleClick="TbChecksumErr_MouseDoubleClick" IsReadOnly="True" />
                 <Label Content="Код ошибки" HorizontalAlignment="Left" Margin="10,131,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
                 <Label Content="Ошибок КС" HorizontalAlignment="Left" Margin="10,215,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
                 <Label Content="Пакетов" HorizontalAlignment="Left" Margin="10,159,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
                 <Label Content="Ошибок ТО" HorizontalAlignment="Left" Margin="10,187,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
+                <Label Content="Отсчет Z" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
+                <Label Content="Отсчет Y" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
             </Grid>
         </GroupBox>
         <Grid HorizontalAlignment="Left" Height="66" Margin="10,285,0,0" VerticalAlignment="Top" Width="225">

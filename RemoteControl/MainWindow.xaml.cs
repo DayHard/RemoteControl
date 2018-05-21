@@ -22,7 +22,7 @@ namespace RemoteControl
         private int _errchecksum;
         private int _errtimeout;
         private bool _comwithshift;
-        private const int Delay = 1000;
+        private const int Delay = 50;
         private const int RecieveTimeOut = 50;
         // ReSharper disable once FieldCanBeMadeReadOnly.Local
         private byte[] _package = {0x5a, 0x01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -221,35 +221,35 @@ namespace RemoteControl
             Dispatcher.Invoke(() =>
             {
                 // Установка статусов системы согалсно полученным битам
-                if ((status & 0x01) == 1)
+                if ((status & 0x01) != 0)
                     IndicReady.Background = Brushes.Green;
                 else IndicReady.Background = Brushes.OrangeRed;
 
-                if ((status & 0x02) == 1)
+                if ((status & 0x02) != 0)
                     IndicStopZ.Background = Brushes.Green;
                 else IndicStopZ.Background = Brushes.OrangeRed;
 
-                if ((status & 0x04) == 1)
+                if ((status & 0x04) != 0)
                     IndicStopY.Background = Brushes.Green;
                 else IndicStopY.Background = Brushes.OrangeRed;
 
-                if ((status & 0x08) == 1)
+                if ((status & 0x08) != 0)
                     IndicCentreX.Background = Brushes.Green;
                 else IndicCentreX.Background = Brushes.OrangeRed;
 
-                if ((status & 0x10) == 1)
+                if ((status & 0x10) != 0)
                     IndicCentreY.Background = Brushes.Green;
                 else IndicCentreY.Background = Brushes.OrangeRed;
 
-                if ((status & 0x20) == 1)
+                if ((status & 0x20) != 0)
                     IndicStartX.Background = Brushes.Green;
                 else IndicStartX.Background = Brushes.OrangeRed;
 
-                if ((status & 0x40) == 1)
+                if ((status & 0x40) != 0)
                     IndicStartY.Background = Brushes.Green;
                 else IndicStartY.Background = Brushes.OrangeRed;
 
-                if ((status & 0x80) == 1)
+                if ((status & 0x80) != 0)
                     IndicErr.Background = Brushes.Green;
                 else IndicErr.Background = Brushes.OrangeRed;
 
@@ -258,8 +258,8 @@ namespace RemoteControl
                 // Величина отсчета по координате Y- старший байт вперед
                 TbYCd.Text = (responce[9] | responce[8] << 8 | responce[7] << 16).ToString();
                 // Код ошибки
-                if ((status & 0x80) == 1)
-                    TbYCd.Text = responce[12].ToString();
+                if ((status & 0x80) != 0)
+                    TbCErr.Text = responce[12].ToString();
                 // Счетчик пакетов
                 TbCPg.Text = (responce[14] | responce[13] << 8).ToString();
             });
