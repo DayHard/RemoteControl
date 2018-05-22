@@ -30,19 +30,19 @@
                 <ToggleButton Name="TglBtnStartScanZDelta" Content="Нач. скан. Z +Δ" Margin="115,50,0,150" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
                 <ToggleButton Name="TglBtnYStartScanDelta" Content="Y в нач. скан. + Δ" Margin="115,75,0,125" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
                 <ToggleButton Name="TglBtnStartScanYDelta" Content="Нач. скан. Y + Δ" Margin="115,100,0,100" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
-                <ToggleButton Name="TglBtnBpoStartInY" Content="Дв. БПО в нач. Y" Margin="115,125,0,75" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
-                <ToggleButton Name="TglBtnBpoStartInZ" Content="Дв. БПО в нач. Z" Margin="114,150,1,50" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
+                <ToggleButton Name="TglBtnBpoStartInY" Content="БПО в нач." Margin="115,125,0,75" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
+                <ToggleButton Name="TglBtnBpoStartInZ" Content="БПО в кон." Margin="114,150,1,50" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
 
 
 
 
 
 
-                <TextBox Name="TbShift" HorizontalAlignment="Left" Height="23" Margin="114,175,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="30" TextChanged="TbShift_TextChanged"/>
+                <TextBox Name="TbShift" HorizontalAlignment="Left" Height="23" Margin="114,175,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="100" TextChanged="TbShift_TextChanged"/>
                 <Label x:Name="LbShift" Content="Смещение:" HorizontalAlignment="Left" Margin="34,175,0,0" VerticalAlignment="Top" Height="23" Width="75"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Статусы" HorizontalAlignment="Left" Height="270" Margin="240,43,0,0" VerticalAlignment="Top" Width="170">
+        <GroupBox Header="Статусы" HorizontalAlignment="Left" Height="298" Margin="240,43,0,0" VerticalAlignment="Top" Width="170">
             <Grid Margin="0,0,-5,-5">
                 <Button Name="IndicErr" Content="Err" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="0,25,0,0" Background="#FFE65757"/>
                 <Button Name="IndicStopZ" Content="СтопZ" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,50,0,0" Background="#FFE65757"/>
@@ -51,7 +51,7 @@
                 <Button Name="IndicCentreX" Content="ЦентрX" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="100,0,0,0" Background="#FFE65757"/>
                 <Button Name="IndicStopY" Content="СтопY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,25,0,0" Background="#FFE65757"/>
                 <Button Name="IndicStartY" Content="СтартY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="0,50,0,0" Background="#FFE65757"/>
-                <Button Name="IndicReady" Content="Готов" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Background="#FFE65757"/>
+                <Button Name="IndicReady" Content="Готов" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Background="#FFE65757" />
                 <TextBox x:Name="TbZCd" HorizontalAlignment="Left" Height="23" Margin="85,75,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="68" IsReadOnly="True"/>
                 <TextBox x:Name="TbYCd" HorizontalAlignment="Left" Height="23" Margin="85,103,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="68" IsReadOnly="True"/>
                 <TextBox x:Name="TbCErr" HorizontalAlignment="Left" Height="23" Margin="85,131,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="70" IsReadOnly="True"/>
@@ -64,6 +64,8 @@
                 <Label Content="Ошибок ТО" HorizontalAlignment="Left" Margin="10,187,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
                 <Label Content="Отсчет Z" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
                 <Label Content="Отсчет Y" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
+                <TextBox x:Name="TbScanTime" HorizontalAlignment="Left" Height="23" Margin="85,243,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="68" MouseDoubleClick="TbChecksumErr_MouseDoubleClick" IsReadOnly="True" />
+                <Label Content="Время скан." HorizontalAlignment="Left" Margin="10,240,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
             </Grid>
         </GroupBox>
         <Grid HorizontalAlignment="Left" Height="66" Margin="10,285,0,0" VerticalAlignment="Top" Width="225">

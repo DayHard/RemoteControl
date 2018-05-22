@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
@@ -16,7 +17,8 @@ namespace RemoteControl
     {
         private SerialPort _port;
         private readonly Multimedia.Timer _timer;
-        private short _command, _shift;
+        private short _command;
+        private int _shift;
         private ushort _counter;
         private List<ToggleButton> _tlgBtnList;
         private int _errchecksum;
@@ -206,57 +208,61 @@ namespace RemoteControl
             }
             if (responce[15] != checksum)
             {
-                Dispatcher.Invoke(() => { TbChecksumErr.Text = TbChecksumErr.ToString(); });
+                Dispatcher.Invoke(() => { TbChecksumErr.Text = _errchecksum.ToString(); });
                 _errchecksum++;
             }
             // Проверяем маркер начала пакета
             if (responce[0] != 0xA5 || responce[1] != 0x10)
             {
-                Dispatcher.Invoke(() => { TbChecksumErr.Text = TbChecksumErr.ToString(); });
+                Dispatcher.Invoke(() => { TbChecksumErr.Text = _errchecksum.ToString(); });
                 _errchecksum++;
             }
 
-            var status = responce[2] | responce[3] << 8;
+            //var status = responce[2] | responce[3] << 8;
+            var status = responce[2] << 8 | responce[3];
             // Установка индикаторов состояния
             Dispatcher.Invoke(() =>
             {
                 // Установка статусов системы согалсно полученным битам
                 if ((status & 0x01) != 0)
-                    IndicReady.Background = Brushes.Green;
+                    IndicReady.Background = Brushes.LightGreen;
                 else IndicReady.Background = Brushes.OrangeRed;
 
                 if ((status & 0x02) != 0)
-                    IndicStopZ.Background = Brushes.Green;
+                    IndicStopZ.Background = Brushes.LightGreen;
                 else IndicStopZ.Background = Brushes.OrangeRed;
 
                 if ((status & 0x04) != 0)
-                    IndicStopY.Background = Brushes.Green;
+                    IndicStopY.Background = Brushes.LightGreen;
                 else IndicStopY.Background = Brushes.OrangeRed;
 
                 if ((status & 0x08) != 0)
-                    IndicCentreX.Background = Brushes.Green;
+                    IndicCentreX.Background = Brushes.LightGreen;
                 else IndicCentreX.Background = Brushes.OrangeRed;
 
                 if ((status & 0x10) != 0)
-                    IndicCentreY.Background = Brushes.Green;
+                    IndicCentreY.Background = Brushes.LightGreen;
                 else IndicCentreY.Background = Brushes.OrangeRed;
 
                 if ((status & 0x20) != 0)
-                    IndicStartX.Background = Brushes.Green;
+                    IndicStartX.Background = Brushes.LightGreen;
                 else IndicStartX.Background = Brushes.OrangeRed;
 
                 if ((status & 0x40) != 0)
-                    IndicStartY.Background = Brushes.Green;
+                    IndicStartY.Background = Brushes.LightGreen;
                 else IndicStartY.Background = Brushes.OrangeRed;
 
                 if ((status & 0x80) != 0)
-                    IndicErr.Background = Brushes.Green;
+                    IndicErr.Background = Brushes.LightGreen;
                 else IndicErr.Background = Brushes.OrangeRed;
 
                 // Величина отсчета по координате Z- старший байт вперед
                 TbZCd.Text = (responce[6] | responce[5] << 8 | responce[4] << 16).ToString();
                 // Величина отсчета по координате Y- старший байт вперед
                 TbYCd.Text = (responce[9] | responce[8] << 8 | responce[7] << 16).ToString();
+                // Время сканирование
+                // ReSharper disable once SpecifyACultureInStringConversionExplicitly
+                TbScanTime.Text = ((short)(responce[10] << 8 | responce[11])*Math.Pow(10, -3)).ToString();
                 // Код ошибки
                 if ((status & 0x80) != 0)
                     TbCErr.Text = responce[12].ToString();
@@ -316,32 +322,32 @@ namespace RemoteControl
                     case "TglBtnZCentreDelta":
                         _command = 0x0103;
                         _comwithshift = true;
-                        _shift = Convert.ToInt16(TbShift.Text);
+                        _shift = Convert.ToInt32(TbShift.Text);
                         break;
                     case "TglBtnYInCentreDelta":
                         _command = 0x0203;
                         _comwithshift = true;
-                        _shift = Convert.ToInt16(TbShift.Text);
+                        _shift = Convert.ToInt32(TbShift.Text);
                         break;
                     case "TglBtnZInStartDelta":
                         _command = 0x0104;
                         _comwithshift = true;
-                        _shift = Convert.ToInt16(TbShift.Text);
+                        _shift = Convert.ToInt32(TbShift.Text);
                         break;
                     case "TglBtnStartScanZDelta":
                         _command = 0x0105;
                         _comwithshift = true;
-                        _shift = Convert.ToInt16(TbShift.Text);
+                        _shift = Convert.ToInt32(TbShift.Text);
                         break;
                     case "TglBtnYStartScanDelta":
                         _command = 0x0204;
                         _comwithshift = true;
-                        _shift = Convert.ToInt16(TbShift.Text);
+                        _shift = Convert.ToInt32(TbShift.Text);
                         break;
                     case "TglBtnStartScanYDelta":
                         _command = 0x0205;
                         _comwithshift = true;
-                        _shift = Convert.ToInt16(TbShift.Text);
+                        _shift = Convert.ToInt32(TbShift.Text);
                         break;
                     case "TglBtnBpoStartInY":
                         _command = 0x0301;
@@ -359,17 +365,16 @@ namespace RemoteControl
         // При вводи значения смещение, обновление переменной shift
         private void TbShift_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            if (short.TryParse(TbShift.Text, out short shift))
+            if (int.TryParse(TbShift.Text, out int shift))
                 _shift = shift;
         }
-
         /// <summary>
         /// Обмен данными с устройством
         /// </summary>
         /// <param name="command">Команда управления</param>
         /// <param name="count">Номер пакета</param>
         /// <param name="shift">Смещение(для некоторых команд)</param>
-        private void DataExchange(short command, ushort count, short shift)
+        private void DataExchange(short command, ushort count, int shift)
         {
             // Зануляем сдвиг, если команда без него
             if (!_comwithshift)
