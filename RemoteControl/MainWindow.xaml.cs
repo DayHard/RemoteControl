@@ -4,7 +4,6 @@ using System.IO;
 using System.IO.Ports;
 using System.Reflection;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
@@ -24,8 +23,8 @@ namespace RemoteControl
         private int _errchecksum;
         private int _errtimeout;
         private bool _comwithshift;
-        private const int Delay = 50;
-        private const int RecieveTimeOut = 50;
+        private const int Delay = 100;
+        private const int RecieveTimeOut = 100;
         // ReSharper disable once FieldCanBeMadeReadOnly.Local
         private byte[] _package = {0x5a, 0x01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         public MainWindow()
@@ -225,35 +224,35 @@ namespace RemoteControl
             {
                 // Установка статусов системы согалсно полученным битам
                 if ((status & 0x01) != 0)
-                    IndicReady.Background = Brushes.LightGreen;
+                    IndicReady.Background = Brushes.GreenYellow;
                 else IndicReady.Background = Brushes.OrangeRed;
 
                 if ((status & 0x02) != 0)
-                    IndicStopZ.Background = Brushes.LightGreen;
+                    IndicStopZ.Background = Brushes.GreenYellow;
                 else IndicStopZ.Background = Brushes.OrangeRed;
 
                 if ((status & 0x04) != 0)
-                    IndicStopY.Background = Brushes.LightGreen;
+                    IndicStopY.Background = Brushes.GreenYellow;
                 else IndicStopY.Background = Brushes.OrangeRed;
 
                 if ((status & 0x08) != 0)
-                    IndicCentreX.Background = Brushes.LightGreen;
+                    IndicCentreX.Background = Brushes.GreenYellow;
                 else IndicCentreX.Background = Brushes.OrangeRed;
 
                 if ((status & 0x10) != 0)
-                    IndicCentreY.Background = Brushes.LightGreen;
+                    IndicCentreY.Background = Brushes.GreenYellow;
                 else IndicCentreY.Background = Brushes.OrangeRed;
 
                 if ((status & 0x20) != 0)
-                    IndicStartX.Background = Brushes.LightGreen;
+                    IndicStartX.Background = Brushes.GreenYellow;
                 else IndicStartX.Background = Brushes.OrangeRed;
 
                 if ((status & 0x40) != 0)
-                    IndicStartY.Background = Brushes.LightGreen;
+                    IndicStartY.Background = Brushes.GreenYellow;
                 else IndicStartY.Background = Brushes.OrangeRed;
 
                 if ((status & 0x80) != 0)
-                    IndicErr.Background = Brushes.LightGreen;
+                    IndicErr.Background = Brushes.GreenYellow;
                 else IndicErr.Background = Brushes.OrangeRed;
 
                 // Величина отсчета по координате Z- старший байт вперед

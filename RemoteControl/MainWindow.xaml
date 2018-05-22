@@ -5,6 +5,105 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Remote Control" Height="382.5" Width="440" Closing="Window_Closing" Loaded="Window_Loaded">
+    <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="ButtonStyleIndicators" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ToggleButtonStyleRemastered" TargetType="{x:Type ToggleButton}">
+            <Setter Property="FocusVisualStyle">
+                <Setter.Value>
+                    <Style>
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle Margin="2" SnapsToDevicePixels="True" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="#FFDDDDDD"/>
+            <Setter Property="BorderBrush" Value="#FF707070"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True" IsEnabled="False">
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Button.IsDefaulted" Value="True">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#FFBEE6FD"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FF3C7FB1"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="GreenYellow"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FF2C628B"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="GreenYellow"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FF245A83"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF838383"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
     <Grid Margin="0,0,2,0">
         <GroupBox Header="Соединение" HorizontalAlignment="Left" Height="48" Margin="10,-5,0,0" VerticalAlignment="Top" Width="400">
             <Grid Margin="0,0,-2,0" Height="26" VerticalAlignment="Top">
@@ -17,41 +116,35 @@
             </Grid>
         </GroupBox>
         <GroupBox Header="Команды" Height="237" Margin="10,43,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="225">
-            <Grid Margin="0,0,-2,-5" HorizontalAlignment="Left" Width="215">
-                <ToggleButton Name="TglBtnZUp" Content="Дв. Z вверх" Margin="0,1,115,199" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
-                <ToggleButton Name="TglBtnZDown" Content="Дв. Z вниз" Margin="0,25,115,175" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
-                <ToggleButton Name="TglBtnYLeft" Content="Дв. Y влево" Margin="0,50,115,150" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
-                <ToggleButton Name="TglBtnYRight" Content="Дв. Y вправо" Margin="0,75,115,125" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
-                <ToggleButton Name="TglBtnZCentre" Content="Дв. Z в центр" Margin="0,100,115,100" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
-                <ToggleButton Name="TglBtnYCentre" Content="Дв. Y в центр " Margin="0,126,115,74" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
-                <ToggleButton Name="TglBtnZCentreDelta" Content="Дв. Z в центр + Δ" Margin="0,150,115,50" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
-                <ToggleButton Name="TglBtnYInCentreDelta" Content="Дв. Y в центр + Δ" Margin="115,1,0,199" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
-                <ToggleButton Name="TglBtnZInStartDelta" Content="Дв. Z в нач. + Δ" Margin="115,25,0,175" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
-                <ToggleButton Name="TglBtnStartScanZDelta" Content="Нач. скан. Z +Δ" Margin="115,50,0,150" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
-                <ToggleButton Name="TglBtnYStartScanDelta" Content="Y в нач. скан. + Δ" Margin="115,75,0,125" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
-                <ToggleButton Name="TglBtnStartScanYDelta" Content="Нач. скан. Y + Δ" Margin="115,100,0,100" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
-                <ToggleButton Name="TglBtnBpoStartInY" Content="БПО в нач." Margin="115,125,0,75" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
-                <ToggleButton Name="TglBtnBpoStartInZ" Content="БПО в кон." Margin="114,150,1,50" Click="TglBtn_Click" IsEnabled="False"></ToggleButton>
-
-
-
-
-
-
+            <Grid Margin="0,0,-2,-5" HorizontalAlignment="Left" Width="215" >
+                <ToggleButton Name="TglBtnZUp" Content="Дв. Z вверх" Margin="0,1,115,199" Click="TglBtn_Click" IsEnabled="False" Style="{DynamicResource ToggleButtonStyleRemastered}"/>
+                <ToggleButton Name="TglBtnZDown" Content="Дв. Z вниз" Margin="0,25,115,175" Click="TglBtn_Click" IsEnabled="False" Style="{DynamicResource ToggleButtonStyleRemastered}"></ToggleButton>
+                <ToggleButton Name="TglBtnYLeft" Content="Дв. Y влево" Margin="0,50,115,150" Click="TglBtn_Click" IsEnabled="False" Style="{DynamicResource ToggleButtonStyleRemastered}"></ToggleButton>
+                <ToggleButton Name="TglBtnYRight" Content="Дв. Y вправо" Margin="0,75,115,125" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"></ToggleButton>
+                <ToggleButton Name="TglBtnZCentre" Content="Дв. Z в центр" Margin="0,100,115,100" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"></ToggleButton>
+                <ToggleButton Name="TglBtnYCentre" Content="Дв. Y в центр " Margin="0,126,115,74" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"></ToggleButton>
+                <ToggleButton Name="TglBtnZCentreDelta" Content="Дв. Z в центр + Δ" Margin="0,150,115,50" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"></ToggleButton>
+                <ToggleButton Name="TglBtnYInCentreDelta" Content="Дв. Y в центр + Δ" Margin="115,1,0,199" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"></ToggleButton>
+                <ToggleButton Name="TglBtnZInStartDelta" Content="Дв. Z в нач. + Δ" Margin="115,25,0,175" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"></ToggleButton>
+                <ToggleButton Name="TglBtnStartScanZDelta" Content="Нач. скан. Z +Δ" Margin="115,50,0,150" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"></ToggleButton>
+                <ToggleButton Name="TglBtnYStartScanDelta" Content="Y в нач. скан. + Δ" Margin="115,75,0,125" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"></ToggleButton>
+                <ToggleButton Name="TglBtnStartScanYDelta" Content="Нач. скан. Y + Δ" Margin="115,100,0,100" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"></ToggleButton>
+                <ToggleButton Name="TglBtnBpoStartInY" Content="БПО в нач." Margin="115,125,0,75" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"></ToggleButton>
+                <ToggleButton Name="TglBtnBpoStartInZ" Content="БПО в кон." Margin="114,150,1,50" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"></ToggleButton>
                 <TextBox Name="TbShift" HorizontalAlignment="Left" Height="23" Margin="114,175,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="100" TextChanged="TbShift_TextChanged"/>
                 <Label x:Name="LbShift" Content="Смещение:" HorizontalAlignment="Left" Margin="34,175,0,0" VerticalAlignment="Top" Height="23" Width="75"/>
             </Grid>
         </GroupBox>
         <GroupBox Header="Статусы" HorizontalAlignment="Left" Height="298" Margin="240,43,0,0" VerticalAlignment="Top" Width="170">
             <Grid Margin="0,0,-5,-5">
-                <Button Name="IndicErr" Content="Err" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="0,25,0,0" Background="#FFE65757"/>
-                <Button Name="IndicStopZ" Content="СтопZ" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,50,0,0" Background="#FFE65757"/>
-                <Button Name="IndicStartX" Content="СтартX" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,0,0,0" Background="#FFE65757"/>
-                <Button Name="IndicCentreY" Content="ЦентрY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="100,25,0,0" Background="#FFE65757"/>
-                <Button Name="IndicCentreX" Content="ЦентрX" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="100,0,0,0" Background="#FFE65757"/>
-                <Button Name="IndicStopY" Content="СтопY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,25,0,0" Background="#FFE65757"/>
-                <Button Name="IndicStartY" Content="СтартY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="0,50,0,0" Background="#FFE65757"/>
-                <Button Name="IndicReady" Content="Готов" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Background="#FFE65757" />
+                <Button Name="IndicErr" Content="Err" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="100,50,0,0" Background="#FFE65757" Style="{StaticResource ButtonStyleIndicators}" />
+                <Button Name="IndicStopZ" Content="СтопZ" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,25,0,0" Background="#FFE65757" Style="{StaticResource ButtonStyleIndicators}" />
+                <Button Name="IndicStartX" Content="СтартZ" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="0,25,0,0" Background="#FFE65757" Style="{StaticResource ButtonStyleIndicators}" />
+                <Button Name="IndicCentreY" Content="ЦентрY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="100,0,0,0" Background="#FFE65757" Style="{StaticResource ButtonStyleIndicators}" />
+                <Button Name="IndicCentreX" Content="ЦентрZ" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="100,25,0,0" Background="#FFE65757" Style="{StaticResource ButtonStyleIndicators}" />
+                <Button Name="IndicStopY" Content="СтопY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Margin="50,0,0,0" Background="#FFE65757" Style="{StaticResource ButtonStyleIndicators}" />
+                <Button Name="IndicStartY" Content="СтартY" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Background="#FFE65757" Style="{StaticResource ButtonStyleIndicators}" />
+                <Button Name="IndicReady" Content="Готов" HorizontalAlignment="Left" VerticalAlignment="Top" Width="45" RenderTransformOrigin="-0.036,0.05" Height="20" Background="#FFE65757" Margin="0,50,0,0" Style="{StaticResource ButtonStyleIndicators}" />
                 <TextBox x:Name="TbZCd" HorizontalAlignment="Left" Height="23" Margin="85,75,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="68" IsReadOnly="True"/>
                 <TextBox x:Name="TbYCd" HorizontalAlignment="Left" Height="23" Margin="85,103,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="68" IsReadOnly="True"/>
                 <TextBox x:Name="TbCErr" HorizontalAlignment="Left" Height="23" Margin="85,131,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="70" IsReadOnly="True"/>
@@ -73,4 +166,5 @@
             <Label x:Name="LbVersion" Content="Версия: 0.0.0000.00000" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="-1.28,1.373" Margin="0,30,0,0"/>
         </Grid>
     </Grid>
+
 </Window>
