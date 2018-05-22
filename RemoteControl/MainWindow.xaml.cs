@@ -134,7 +134,9 @@ namespace RemoteControl
                 }
             }
             else
-            {
+            {   
+                // В отключения переподключения сбрасываем команду
+                _command = 0x00;
                 _timer.Stop();
                 _port.Close();
                 BtnConnect.Content = "Подключить";
@@ -144,6 +146,7 @@ namespace RemoteControl
             foreach (var toggleButton in _tlgBtnList)
             {
                 toggleButton.IsEnabled = !toggleButton.IsEnabled;
+                toggleButton.IsChecked = false;
             }
             CbPortName.IsEnabled = !CbPortName.IsEnabled;
             CbBaudRate.IsEnabled = !CbBaudRate.IsEnabled;
