@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Ports;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace RemoteControl
 {
@@ -23,10 +28,9 @@ namespace RemoteControl
         private int _errchecksum;
         private int _errtimeout;
         private bool _comwithshift;
-        private const int Delay = 100;
+        private const int Delay = 1000;
         private const int RecieveTimeOut = 100;
-        // ReSharper disable once FieldCanBeMadeReadOnly.Local
-        private byte[] _package = {0x5a, 0x01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        private readonly byte[] _package = {0x5a, 0x01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         public MainWindow()
         {
             InitializeComponent();
@@ -49,6 +53,8 @@ namespace RemoteControl
             {
                 CbPortName.Items.Add(portName);
             }
+            // Загружаем файл конфигурации
+            LoadProperties();
         }
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -57,7 +63,120 @@ namespace RemoteControl
             // Закрываем порт
             if (_port != null && _port.IsOpen)
                 _port.Close();
+            // Сохраняем информацию о сдвигах
+            SaveShiftFields();
         }
+        // Сохранение полей в XML файл
+        private void SaveShiftFields()
+        {
+            XmlTextWriter writer = new XmlTextWriter("setting.xml", Encoding.UTF8);
+            writer.WriteStartDocument();
+            writer.WriteStartElement("xml");
+            writer.WriteEndElement();
+            writer.Close();
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load("setting.xml");
+            XmlNode header = doc.CreateElement("RemoteControl");
+            doc.DocumentElement?.AppendChild(header);
+
+            XmlNode element1 = doc.CreateElement("Com-Properties");
+            doc.DocumentElement?.AppendChild(element1);
+
+            XmlNode portname = doc.CreateElement("PortName"); // даём имя
+            portname.InnerText = CbPortName.SelectionBoxItem.ToString(); // и значение
+            element1.AppendChild(portname); // и указываем кому принадлежит
+
+            XmlNode baudrate = doc.CreateElement("BaudRate"); // даём имя
+            baudrate.InnerText = CbBaudRate.SelectionBoxItem.ToString(); // и значение
+            element1.AppendChild(baudrate); // и указываем кому принадлежит
+
+            XmlNode element2 = doc.CreateElement("Shift-Properties");
+            doc.DocumentElement?.AppendChild(element2);
+
+            XmlNode startScanYDelta = doc.CreateElement("StartScanYDelta"); // даём имя
+            startScanYDelta.InnerText = TbStartScanYDelta.Text; // и значение
+            element2.AppendChild(startScanYDelta); // и указываем кому принадлежит
+
+            XmlNode yInCentreDelta = doc.CreateElement("YInCentreDelta"); // даём имя
+            yInCentreDelta.InnerText = TbYInCentreDelta.Text; // и значение
+            element2.AppendChild(yInCentreDelta); // и указываем кому принадлежит
+
+            XmlNode yStartScanDelta = doc.CreateElement("YStartScanDelta"); // даём имя
+            yStartScanDelta.InnerText = TbYStartScanDelta.Text; // и значение
+            element2.AppendChild(yStartScanDelta); // и указываем кому принадлежит
+
+            XmlNode startScanZDelta = doc.CreateElement("StartScanZDelta"); // даём имя
+            startScanZDelta.InnerText = TbStartScanZDelta.Text; // и значение
+            element2.AppendChild(startScanZDelta); // и указываем кому принадлежит
+
+            XmlNode zInStartDelta = doc.CreateElement("ZInStartDelta"); // даём имя
+            zInStartDelta.InnerText = TbZInStartDelta.Text; // и значение
+            element2.AppendChild(zInStartDelta); // и указываем кому принадлежит
+
+            XmlNode zCentreDelta = doc.CreateElement("ZCentreDelta"); // даём имя
+            zCentreDelta.InnerText = TbZCentreDelta.Text; // и значение
+            element2.AppendChild(zCentreDelta); // и указываем кому принадлежит
+
+            doc.Save("setting.xml");
+        }
+        // Загрузка полей из XML
+        private void LoadProperties()
+        {
+            if (File.Exists("setting.xml"))
+            {               
+                XDocument xDoc = XDocument.Load("setting.xml");
+                // Считывание параметров соединения
+                XElement portName = xDoc.Descendants("PortName").First();
+                for (int i = 0; i < CbPortName.Items.Count; i++)
+                {
+                    if (portName.Value == (string)CbPortName.Items[i])
+                        CbPortName.SelectedIndex = i;
+                }
+
+                XElement baudrate = xDoc.Descendants("BaudRate").First();
+                for (int i = 0; i < CbBaudRate.Items.Count; i++)
+                {
+                    if (baudrate.Value == (string)CbBaudRate.Items[i])
+                        CbBaudRate.SelectedIndex = i;
+                }
+
+                // Считывание сдвигов
+                XElement startScanYDelta = xDoc.Descendants("StartScanYDelta").First();
+                TbStartScanYDelta.Text = int.TryParse(startScanYDelta.Value, out int _) ? startScanYDelta.Value : 0.ToString();
+
+                XElement yInCentreDelta = xDoc.Descendants("YInCentreDelta").First();
+                TbYInCentreDelta.Text = int.TryParse(yInCentreDelta.Value, out int _) ? yInCentreDelta.Value : 0.ToString();
+
+                XElement yStartScanDelta = xDoc.Descendants("YStartScanDelta").First();
+                TbYStartScanDelta.Text = int.TryParse(yStartScanDelta.Value, out int _) ? yStartScanDelta.Value : 0.ToString();
+
+                XElement startScanZDelta = xDoc.Descendants("StartScanZDelta").First();
+                TbStartScanZDelta.Text = int.TryParse(startScanZDelta.Value, out int _) ? startScanZDelta.Value : 0.ToString();
+
+                XElement zInStartDelta = xDoc.Descendants("ZInStartDelta").First();
+                TbZInStartDelta.Text = int.TryParse(zInStartDelta.Value, out int _) ? zInStartDelta.Value : 0.ToString();
+
+                XElement zCentreDelta = xDoc.Descendants("ZCentreDelta").First();
+                TbZCentreDelta.Text = int.TryParse(zCentreDelta.Value, out int _) ? zCentreDelta.Value : 0.ToString();
+            }
+            else SetDefaultConfig();
+        }
+        /// <summary>
+        /// Установка свойств и кнопок в положение по умолчанию
+        /// </summary>
+        private void SetDefaultConfig()
+        {
+            CbPortName.SelectedIndex = -1;
+            CbBaudRate.SelectedIndex = -1;
+            TbStartScanYDelta.Text = 0.ToString();
+            TbYInCentreDelta.Text = 0.ToString();
+            TbYStartScanDelta.Text = 0.ToString();
+            TbStartScanZDelta.Text = 0.ToString();
+            TbZInStartDelta.Text = 0.ToString();
+            TbZInStartDelta.Text = 0.ToString();
+        }
+
         // Сброс ошибки таймат, при двойном клике на поле
         private void TbTimeoutErr_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -71,7 +190,7 @@ namespace RemoteControl
             TbChecksumErr.Text = _errchecksum.ToString();
         }
         // Включение кнопки подключить
-        private void CbPortName_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void CbPortName_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             BtnConnect.IsEnabled = true;
         }
@@ -324,32 +443,32 @@ namespace RemoteControl
                     case "TglBtnZCentreDelta":
                         _command = 0x0103;
                         _comwithshift = true;
-                        _shift = Convert.ToInt32(TbShift.Text);
+                        _shift = Convert.ToInt32(TbZCentreDelta.Text);
                         break;
                     case "TglBtnYInCentreDelta":
                         _command = 0x0203;
                         _comwithshift = true;
-                        _shift = Convert.ToInt32(TbShift.Text);
+                        _shift = Convert.ToInt32(TbYInCentreDelta.Text);
                         break;
                     case "TglBtnZInStartDelta":
                         _command = 0x0104;
                         _comwithshift = true;
-                        _shift = Convert.ToInt32(TbShift.Text);
+                        _shift = Convert.ToInt32(TbZInStartDelta.Text);
                         break;
                     case "TglBtnStartScanZDelta":
                         _command = 0x0105;
                         _comwithshift = true;
-                        _shift = Convert.ToInt32(TbShift.Text);
+                        _shift = Convert.ToInt32(TbStartScanZDelta.Text);
                         break;
                     case "TglBtnYStartScanDelta":
                         _command = 0x0204;
                         _comwithshift = true;
-                        _shift = Convert.ToInt32(TbShift.Text);
+                        _shift = Convert.ToInt32(TbYStartScanDelta.Text);
                         break;
                     case "TglBtnStartScanYDelta":
                         _command = 0x0205;
                         _comwithshift = true;
-                        _shift = Convert.ToInt32(TbShift.Text);
+                        _shift = Convert.ToInt32(TbStartScanYDelta.Text);
                         break;
                     case "TglBtnBpoStartInY":
                         _command = 0x0301;
@@ -363,12 +482,6 @@ namespace RemoteControl
                         throw new Exception("Something gone wrong.");
                 }
             }
-        }
-        // При вводи значения смещение, обновление переменной shift
-        private void TbShift_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-            if (int.TryParse(TbShift.Text, out int shift))
-                _shift = shift;
         }
         /// <summary>
         /// Обмен данными с устройством
@@ -387,6 +500,51 @@ namespace RemoteControl
 
             SendCommand(command, count, shift);
             RecieveCommand();
+        }
+        // Обновления поля сдвига
+        private void TbShift_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var texbox = (TextBox) sender;
+
+            if (int.TryParse(texbox.Text, out int shift))
+            {
+                //По статусу кнопки определяем какой сдвиг обновился
+                    switch (texbox.Name)
+                    {
+                    case "TbStartScanYDelta":
+                        if (TglBtnStartScanYDelta.IsChecked == true)
+                        _shift = shift;
+                        break;
+                    case "TbYInCentreDelta":
+                        if (TglBtnYInCentreDelta.IsChecked == true)
+                        _shift = shift;
+                        break;
+                    case "TbYStartScanDelta":
+                        if (TglBtnYStartScanDelta.IsChecked == true)
+                        _shift = shift;
+                        break;
+                    case "TbStartScanZDelta":
+                        if (TglBtnStartScanZDelta.IsChecked == true)
+                        _shift = shift;
+                        break;
+                    case "TbZInStartDelta":
+                        if (TglBtnZInStartDelta.IsChecked == true)
+                        _shift = shift;
+                        break;
+                    case "TbZCentreDelta":
+                        if (TglBtnZCentreDelta.IsChecked == true)
+                        _shift = shift;
+                        break;
+                    default:
+                    throw new Exception("Something gone wrong.");
+                    }
+                }
+            else
+            {
+                _shift = 0;
+                MessageBox.Show(this, "Введите число", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                texbox.Text = 0.ToString();
+            }
         }
     }
 }

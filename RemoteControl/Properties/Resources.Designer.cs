@@ -59,5 +59,15 @@ namespace RemoteControl.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Icon, аналогичного (Значок).
+        /// </summary>
+        internal static System.Drawing.Icon BiohazardBlackPurple {
+            get {
+                object obj = ResourceManager.GetObject("BiohazardBlackPurple", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }
