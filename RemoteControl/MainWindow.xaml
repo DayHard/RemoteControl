@@ -124,20 +124,20 @@
                 <ToggleButton x:Name="TglBtnYRight" Content="Y вправо" Margin="0,75,115,186" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"/>
                 <ToggleButton x:Name="TglBtnZCentre" Content="Z в центр" Margin="105,1,10,260" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"/>
                 <ToggleButton x:Name="TglBtnYCentre" Content="Y в центр " Margin="105,25,10,236" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"/>
-                <ToggleButton x:Name="TglBtnZCentreDelta" Content="Z в центр + Δ" Margin="0,225,115,36" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"/>
-                <ToggleButton x:Name="TglBtnYInCentreDelta" Content="Y в центр + Δ" Margin="0,125,115,136" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"/>
+                <ToggleButton x:Name="TglBtnZCentreDelta" Content="Z в центр + Δ" Margin="0,175,115,86" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"/>
+                <ToggleButton x:Name="TglBtnYInCentreDelta" Content="Y в центр + Δ" Margin="0,100,115,161" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"/>
                 <ToggleButton x:Name="TglBtnZInStartDelta" Content="Z в нач. + Δ" Margin="0,200,115,61" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"/>
-                <ToggleButton x:Name="TglBtnStartScanZDelta" Content="Нач. скан. Z +Δ" Margin="0,175,115,86" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"/>
-                <ToggleButton x:Name="TglBtnYStartScanDelta" Content="Y в нач. скан. + Δ" Margin="0,150,115,111" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"/>
-                <ToggleButton x:Name="TglBtnStartScanYDelta" Content="Нач. скан. Y + Δ" Margin="0,100,115,161" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"/>
+                <ToggleButton x:Name="TglBtnStartScanZDelta" Content="Нач. скан. Z +Δ" Margin="0,225,115,36" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"/>
+                <ToggleButton x:Name="TglBtnYStartScanDelta" Content="Y в нач. скан. + Δ" Margin="0,125,115,136" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"/>
+                <ToggleButton x:Name="TglBtnStartScanYDelta" Content="Нач. скан. Y + Δ" Margin="0,150,115,111" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"/>
                 <ToggleButton x:Name="TglBtnBpoStartInY" Content="БПО в нач." Margin="105,50,10,211" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"/>
                 <ToggleButton x:Name="TglBtnBpoStartInZ" Content="БПО в кон." Margin="105,75,10,186" Click="TglBtn_Click" IsEnabled="False"  Style="{DynamicResource ToggleButtonStyleRemastered}"/>
-                <TextBox x:Name="TbStartScanYDelta" HorizontalAlignment="Left" Height="19" Margin="105,101,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="100" TextChanged="TbShift_TextChanged"/>
-                <TextBox x:Name="TbYInCentreDelta" HorizontalAlignment="Left" Height="19" Margin="105,126,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="100" TextChanged="TbShift_TextChanged"/>
-                <TextBox x:Name="TbYStartScanDelta" HorizontalAlignment="Left" Height="19" Margin="105,151,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="100" TextChanged="TbShift_TextChanged"/>
-                <TextBox x:Name="TbStartScanZDelta" HorizontalAlignment="Left" Height="19" Margin="105,176,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="100" TextChanged="TbShift_TextChanged"/>
-                <TextBox x:Name="TbZInStartDelta" HorizontalAlignment="Left" Height="19" Margin="105,201,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="100" TextChanged="TbShift_TextChanged"/>
-                <TextBox x:Name="TbZCentreDelta" HorizontalAlignment="Left" Height="19" Margin="105,226,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="100" TextChanged="TbShift_TextChanged"/>
+                <TextBox x:Name="TbStartScanYDelta" HorizontalAlignment="Left" Height="20" Margin="105,150,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="100" TextChanged="TbShift_TextChanged"/>
+                <TextBox x:Name="TbYInCentreDelta" HorizontalAlignment="Left" Height="20" Margin="105,100,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="100" TextChanged="TbShift_TextChanged"/>
+                <TextBox x:Name="TbYStartScanDelta" HorizontalAlignment="Left" Height="20" Margin="105,125,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="100" TextChanged="TbShift_TextChanged"/>
+                <TextBox x:Name="TbStartScanZDelta" HorizontalAlignment="Left" Height="20" Margin="105,225,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="100" TextChanged="TbShift_TextChanged"/>
+                <TextBox x:Name="TbZInStartDelta" HorizontalAlignment="Left" Height="20" Margin="105,200,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="100" TextChanged="TbShift_TextChanged"/>
+                <TextBox x:Name="TbZCentreDelta" HorizontalAlignment="Left" Height="20" Margin="105,175,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="100" TextChanged="TbShift_TextChanged" RenderTransformOrigin="1.895,0.889"/>
             </Grid>
         </GroupBox>
         <GroupBox Header="Статусы" HorizontalAlignment="Left" Height="298" Margin="240,43,0,0" VerticalAlignment="Top" Width="170">
