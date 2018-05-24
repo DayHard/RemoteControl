@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:system="clr-namespace:System;assembly=mscorlib" x:Class="RemoteControl.MainWindow"
         mc:Ignorable="d"
-        Title="Remote Control" Height="420" Width="440" Closing="Window_Closing" Loaded="Window_Loaded" ResizeMode="NoResize">
+        Title="Remote Control" Height="420" Width="440" Closing="Window_Closing" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
@@ -163,7 +163,7 @@
                 <Label Content="Отсчет Z" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
                 <Label Content="Отсчет Y" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
                 <TextBox x:Name="TbScanTime" HorizontalAlignment="Left" Height="23" Margin="85,243,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="68" MouseDoubleClick="TbChecksumErr_MouseDoubleClick" IsReadOnly="True" />
-                <Label Content="t скан., мс" HorizontalAlignment="Left" Margin="15,243,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
+                <Label Content="t скан., с" HorizontalAlignment="Left" Margin="15,243,0,0" VerticalAlignment="Top" Height="25" Width="70" FontSize="10"/>
             </Grid>
         </GroupBox>
         <Grid HorizontalAlignment="Left" Height="35" Margin="10,341,0,0" VerticalAlignment="Top" Width="400">
